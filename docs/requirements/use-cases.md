@@ -2181,6 +2181,71 @@ Report generating algorithm: N/A
 **Assumptions:**
 **Open Issues:**
 
+### **UC-WAR-nudge-non-submitters: The instructor nudges students who have not submitted a weekly activity report**
+
+**UC ID and Name:** UC-WAR-nudge-non-submitters: Nudge students who have not submitted a weekly activity report
+**Created By:** Codex (agent-assisted draft)
+**Date Created:** 01/Oct/2026
+**Primary Actor:** instructor
+**Secondary Actors:** Gmail SMTP email service
+**Trigger:** The instructor indicates to nudge weekly activity report non-submitters in a course section.
+**Description:** The instructor wants to remind selected students to record their weekly activities before the due time. Identifying recipients and sending the nudge form one instructor goal; this use case does not change the unattended weekly reminder.
+
+**Preconditions:**
+- PRE-1. The instructor is logged into the system.
+- PRE-2. The course section is within the instructor's authorized scope (BR-section-scoped-access).
+
+**Postconditions:**
+- POST-1. Each selected student who remains eligible has an individual nudge accepted by the mail service, or a recorded delivery failure.
+- POST-2. The instructor sees the outcome for each selected student. No submission record is created or changed.
+
+**Main Success Scenario:**
+1. The instructor selects a course section and a week to nudge.
+2. The system validates the section access and the nudge period under the cited business rules.
+3. The system displays eligible non-submitters, with student name, team, and registered email address.
+4. The instructor selects one or more students from this list.
+5. The system previews the recipients and the nudge message and asks for confirmation.
+6. The instructor confirms sending.
+7. The system rechecks section access, the nudge period, and each selected student's eligibility immediately before attempting delivery.
+8. The system sends an individual email to each eligible selected student and records the outcome.
+9. The system displays per-student outcomes and totals for accepted, skipped, and failed deliveries.
+10. Use case ends.
+
+**Extensions:**
+- **2a, 7a. The caller lacks the instructor capability or loses section access:**
+  - The system refuses the operation without exposing recipients or their submission status (BR-role-based-access, BR-section-scoped-access). No further emails are attempted; use case ends.
+- **2b, 7b. The selected week is inactive, future, or its nudge period has closed:**
+  - The system identifies the unmet nudge-period condition (BR-war-nudge-period); no further emails are attempted. The instructor may choose another week or end the use case. This is a nudge restriction, not a new WAR authoring restriction (BR-active-weeks).
+- **3a, 7c. A student has no team assignment in this section:**
+  - The system excludes the student from the non-submitter list or skips her if selected earlier (BR-team-assignment-required, BR-war-nudge-eligibility).
+- **3b. There are no eligible non-submitters:**
+  - The system displays an empty result and does not offer a send action. Use case ends.
+- **3c, 7d. The student saved activities, then deleted them:**
+  - The system determines eligibility from the remaining records (BR-war-nudge-eligibility). Deleting the last activity makes the student a non-submitter again, subject to BR-war-nudge-cooldown.
+- **7e. A selected student has submitted, left the section, lost her team assignment, or become ineligible since preview:**
+  - The system skips the student, records the reason, and continues with the other selected students (BR-war-nudge-eligibility).
+- **7f. A selected student was already nudged within the cooldown:**
+  - The system skips the student and displays the next permitted attempt time (BR-war-nudge-cooldown). Repeated clicks do not create additional emails for that student.
+- **8a. The mail service rejects an address or fails an attempt:**
+  - The system records the failed attempt, logs the error, and continues with the other selected students. The instructor sees failure rather than successful delivery; retries follow BR-war-nudge-cooldown.
+- **4a, 5a. The instructor cancels before confirmation:**
+  - The system sends no emails; use case ends.
+
+**Priority:** Medium
+**Frequency of Use:** As needed before weekly WAR due times, subject to BR-war-nudge-cooldown.
+**Business Rules:** BR-role-based-access, BR-section-scoped-access, BR-team-scoped-access, BR-team-assignment-required, BR-active-weeks, BR-war-nudge-eligibility, BR-war-nudge-period, BR-war-nudge-cooldown.
+
+**Associated Information:**
+- Submission definition: A WAR is the student's saved Activity rows for the selected week, as described in the SRS performance-tracking domain model. There is no additional finalize action. Peer evaluation records and activity completion status do not determine WAR submission.
+- Selection: Only displayed eligible students may be selected; the system validates supplied student identifiers against the authorized section rather than trusting the client. One send request covers one section and one week.
+- Notification: Use the Gmail SMTP integration (CI-email-notifications). The message identifies the section, selected week, WAR due time, and how to reach WAR authoring. Each email concerns only its recipient; it contains no recipient list, other students' submission status, activity content, or peer evaluation data.
+- Security/access concerns: The non-submitter list and delivery outcomes are instructor-only student records within the section boundary. Students cannot use this operation, including for their own team. Transmission and storage honor CO-ferpa and SEC-ferpa; operational logs do not contain email bodies or activity content.
+- Delivery outcomes: Mail service acceptance is reported as accepted, not proof of inbox delivery. Outcomes retain the actor, section, week, student, attempt time, and accepted/failed/skipped status, accessible only within the authorized instructor scope and retained under DI-data-retention-disposal.
+
+**Related Use Cases:** UC-WAR-manage-activities; UC-SEC-view-section. The unattended reminder remains FR-NOT-weekly-reminder, a background requirement rather than an instructor-triggered use case.
+**Assumptions:** No new WAR finalization or peer evaluation behavior is introduced.
+**Open Issues:** None.
+
 ## **Peer Evaluation**
 
 ### **UC-EVA-submit-evaluation: The student submits a peer evaluation for the previous week**
