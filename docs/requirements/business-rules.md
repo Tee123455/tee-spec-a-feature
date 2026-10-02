@@ -8,7 +8,7 @@
 
 | Date          | Version | Description | Author   |
 | ------------- | ------- | ----------- | -------- |
-| 01/Oct/2026 | 1.0 | Added BR-war-nudge-eligibility, BR-war-nudge-period, and BR-war-nudge-cooldown; clarified account eligibility, timezone, and concurrent attempts after review. | Tee123455 (with Codex assistance) |
+| 01/Oct/2026 | 1.0 | Added BR-war-nudge-eligibility, BR-war-nudge-period, and BR-war-nudge-cooldown; clarified account eligibility, timezone, and concurrent attempts after review. | Tee123455 |
 |               |         |             |          |
 |               |         |             |          |
 |               |         |             |          |
