@@ -8,7 +8,7 @@
 
 | Date          | Version | Description | Author   |
 | ------------- | ------- | ----------- | -------- |
-| \<dd/mmm/yy\> | \<x.x\> | \<details\> | \<name\> |
+| 01/Oct/2026 | 1.0 | Added BR-war-nudge-eligibility, BR-war-nudge-period, and BR-war-nudge-cooldown; clarified account eligibility, timezone, and concurrent attempts after review. | Tee123455 |
 |               |         |             |          |
 |               |         |             |          |
 |               |         |             |          |
@@ -46,6 +46,10 @@ These business rules apply across Project Pulse. The course-administration rules
 - **BR-evaluation-submission-window:** A student may submit a peer evaluation only for the previous week, and has that one week to complete it; both the initial submission and any later edits must occur within this window. A student who fails to complete a peer evaluation in that window cannot make it up, and an evaluation can no longer be changed once its window has closed.
 - **BR-evaluation-private-comment:** When submitting a peer evaluation, the evaluator may optionally include a private comment about the teammate being evaluated. A private comment is visible only to the instructor assigned to the course section (and course admin, per BR-role-based-access); it is never shown to the evaluatee or any other student on the team. Private comments exist to give students a safe channel to raise concerns early.
 - **BR-evaluation-visibility:** For a peer evaluation, a student may see only her own rubric criterion scores, public comments (not private comments — see BR-evaluation-private-comment), and overall grade.
+
+- **BR-war-nudge-eligibility:** A WAR non-submitter eligible for an instructor nudge is an active student account currently enrolled in the selected course section, assigned to a team in that section, with no non-deleted Activity row authored by that student for the selected week in that section. One saved activity counts as submission regardless of its status or hours; a teammate's activity does not count. Deleted rows do not count. The system rechecks eligibility immediately before each delivery attempt.
+- **BR-war-nudge-period:** An instructor may nudge WAR non-submitters only for the current week when that week is active for the selected course section and before that week's configured WAR due day and due time. Weeks use ISO week-based year and week (Monday through Sunday), and current week and the due instant are determined in the configured application timezone (`app.timezone`), matching the existing reminder clock. At or after the due instant the nudge period is closed. Missing due-day or due-time configuration prevents nudging and must be reported to the instructor. This policy restricts nudges only; it does not restrict WAR authoring under BR-active-weeks or apply the peer evaluation submission window to WARs.
+- **BR-war-nudge-cooldown:** For each student, course section, and report week, at most one instructor-initiated WAR nudge attempt is permitted in any rolling 24-hour period, shared across all instructors of that section. An attempt consumes the allowance even if the mail service rejects it. The allowance must be reserved atomically and durably before contacting the mail service, so concurrent requests cannot exceed it. A timeout or interruption after reservation consumes the allowance even when acceptance cannot be determined; no automatic retry is allowed. Skipped recipients and recipients never reserved consume no allowance. A retry is allowed only after the cooldown and while the nudge period remains open.
 
 # **Access and Ownership**
 
