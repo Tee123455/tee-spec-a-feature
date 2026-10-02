@@ -100,7 +100,7 @@ The note below is **not** the catalog. It records scope context only: a few Proj
 ### **UC-RUB-create-rubric: The course admin creates a rubric**
 
 **UC ID and Name:** UC-RUB-create-rubric: Create a rubric
-**Created By:**
+**Created By:
 **Date Created:**
 **Primary Actor:** course admin
 **Secondary Actors:**
@@ -2184,7 +2184,7 @@ Report generating algorithm: N/A
 ### **UC-WAR-nudge-non-submitters: The instructor nudges students who have not submitted a weekly activity report**
 
 **UC ID and Name:** UC-WAR-nudge-non-submitters: Nudge students who have not submitted a weekly activity report
-**Created By:** Codex (agent-assisted draft)
+**Created By:**
 **Date Created:** 01/Oct/2026
 **Primary Actor:** instructor
 **Secondary Actors:** Gmail SMTP email service
