@@ -8,7 +8,7 @@
 
 | Date | Version | Description | Author |
 | ----- | ----- | ----- | ----- |
-| \<dd/mmm/yy\> | \<x.x\> | \<details\> | \<name\> |
+| 01/Oct/2026 | 1.0 | Added UC-WAR-nudge-non-submitters and clarified its extensions after the agent assumption review. | Tee123455 (with Codex assistance) |
 |  |  |  |  |
 |  |  |  |  |
 |  |  |  |  |
